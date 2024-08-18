@@ -4,13 +4,14 @@ using PruebaRepositoryDTOv2.Repositories;
 
 namespace PruebaRepositoryDTOv2.Controllers
 {
-	public class ProductController(IProductRepository repo, IProviderRepository providerRepo, IProductTypeRepository productTypeRepository) : Controller
+	public class ProductController(IProductRepository repo, IProviderRepository providerRepo, IProductTypeRepository productTypeRepository, IProductReportRepository productReportRepository) : Controller
 	{
 		private readonly IProductRepository _repo = repo;
 		private readonly IProviderRepository _providerRepo = providerRepo;
 		private readonly IProductTypeRepository _productTypeRepository = productTypeRepository;
+        private readonly IProductReportRepository _productReportRepository = productReportRepository;
 
-		public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index()
 		{
             var products = (await _repo.GetProductsAsync()).Select(p => new ProductDTO
 			{
@@ -25,6 +26,21 @@ namespace PruebaRepositoryDTOv2.Controllers
 			}).ToList();
 			return View(products);
 		}
+
+        public async Task<IActionResult> Report()
+        {
+            var productsReport = (await _productReportRepository.GetProductReportAsync()).Select(p => new ProductReportDTO
+            {
+                IDProducto = p.IDProducto,
+                NombreProducto = p.NombreProducto,
+                Marca = p.Marca,
+                Modelo = p.Modelo,
+                TipoProducto = p.TipoProducto,
+                Proveedor = p.Proveedor,
+                Cantidad = p.Cantidad
+            }).ToList();
+            return View(productsReport);
+        }
 
         public async Task<IActionResult> Create()
         {
