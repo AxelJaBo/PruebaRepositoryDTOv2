@@ -1,7 +1,14 @@
+using PruebaRepositoryDTOv2.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IProductReportRepository, ProductReportRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IProductTypeRepository, ProductTypeRepository>();
+builder.Services.AddScoped<IProviderRepository, ProviderRepository>();
 
 var app = builder.Build();
 

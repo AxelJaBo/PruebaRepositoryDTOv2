@@ -45,18 +45,19 @@ namespace PruebaRepositoryDTOv2.Repositories
             var products = new List<ProductDTO>();
             while (await reader.ReadAsync())
             {
-                products.Add(new ProductDTO
-                {
-                    Id = (int)reader["Id"],
-                    Nombre = (string)reader["Nombre"],
-                    IDProveedor = (int)reader["IDProveedor"],
-                    IDTipo = (int)reader["IDTipo"],
-                    Cantidad = (int)reader["Cantidad"],
-                    FechaAlta = (DateTime)reader["FechaAlta"],
-                    Modelo = (string)reader["Modelo"],
-                    Marca = (string)reader["Marca"]
-                });
-            }
+				ProductDTO product = new ProductDTO()
+				{
+					Id = reader.GetInt32(reader.GetOrdinal("Id")),
+					Nombre = reader.GetString(reader.GetOrdinal("Nombre")),
+					IDProveedor = reader.GetInt32(reader.GetOrdinal("IDProveedor")),
+					IDTipo = reader.GetInt32(reader.GetOrdinal("IDTipo")),
+					Cantidad = reader.GetInt32(reader.GetOrdinal("Cantidad")),
+					FechaAlta = reader.GetDateTime(reader.GetOrdinal("FechaAlta")),
+					Modelo = reader.GetString(reader.GetOrdinal("Modelo")),
+					Marca = reader.GetString(reader.GetOrdinal("Marca"))
+				};
+				products.Add(product);
+			}
             return products;
         }
     }
